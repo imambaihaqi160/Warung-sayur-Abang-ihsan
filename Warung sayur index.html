@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SayurSegar - Warung Sayur & Kebutuhan Dapur</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xl shadow-md shadow-emerald-200">
+          🌱
+        </span>
+        <div>
+          <h1 class="font-extrabold text-lg text-emerald-900 tracking-tight leading-none">SayurSegar</h1>
+          <span class="text-xs text-emerald-600 font-medium">Warung Sayur & Dapur</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Cart Trigger Button -->
+        <button onclick="toggleCartModal(true)" class="relative p-2.5 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition duration-200 flex items-center justify-center">
+          <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center scale-0 transition-transform">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 text-white py-14 px-4 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+      <span class="inline-block px-3.5 py-1.5 bg-emerald-500/40 rounded-full text-xs font-semibold uppercase tracking-wider mb-3 backdrop-blur-sm border border-emerald-400/30">
+        🥬 Petik Subuh, Segar Sampai Rumah
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+        Sayuran Segar Berkualitas, Belanja Mudah dari Rumah
+      </h2>
+      <p class="text-emerald-100 text-base sm:text-lg max-w-2xl mx-auto mb-8 font-light">
+        Pesan sayur, bumbu dapur, dan lauk segar harian tanpa perlu repot becek ke pasar. Pesan sekarang via WhatsApp, kami antar langsung ke depan pintu!
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm font-medium">
+        <div class="flex items-center gap-1.5 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-300"></i> Dijamin Segar
+        </div>
+        <div class="flex items-center gap-1.5 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
+          <i data-lucide="truck" class="w-4 h-4 text-emerald-300"></i> Bisa Antar (COD)
+        </div>
+        <div class="flex items-center gap-1.5 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
+          <i data-lucide="clock" class="w-4 h-4 text-emerald-300"></i> Buka 05.00 - 18.00 WIB
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT / KATALOG -->
+  <main class="max-w-6xl mx-auto px-4 py-10 flex-1 w-full">
+    
+    <!-- Filter Kategori -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+      <div>
+        <h3 class="text-xl sm:text-2xl font-bold text-slate-900">Daftar Produk Hari Ini</h3>
+        <p class="text-sm text-slate-500">Pilih kebutuhan dapur dan masukkan ke keranjang belanja</p>
+      </div>
+
+      <div class="flex flex-wrap gap-2" id="category-filters">
+        <button onclick="filterProducts('all')" class="cat-btn active px-4 py-2 text-xs font-semibold rounded-full bg-emerald-600 text-white transition">Semua</button>
+        <button onclick="filterProducts('sayur')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">Sayuran</button>
+        <button onclick="filterProducts('bumbu')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">Bumbu Dapur</button>
+        <button onclick="filterProducts('umbi')" class="cat-btn px-4 py-2 text-xs font-semibold rounded-full bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">Umbi & Buah</button>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <!-- Produk di-render otomatis melalui JavaScript -->
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-8 px-4 mt-auto">
+    <div class="max-w-6xl mx-auto text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+      <div>
+        <p class="font-bold text-slate-800 text-sm">Warung SayurSegar</p>
+        <p>Jl. Melati Indah No. 12, Kel. Sukamaju, Jakarta</p>
+      </div>
+      <div>
+        <p>&copy; 2026 SayurSegar. Melayani dengan sepenuh hati.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART MODAL (DRAWER / OVERLAY) -->
+  <div id="cart-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden transition-opacity">
+    <div class="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col z-50 transform transition-transform">
+      
+      <!-- Cart Header -->
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-700"></i>
+          <h3 class="font-bold text-slate-800">Keranjang Belanja</h3>
+        </div>
+        <button onclick="toggleCartModal(false)" class="p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Cart Item List -->
+      <div id="cart-items" class="p-4 flex-1 overflow-y-auto space-y-3">
+        <!-- Diisi otomatis melalui JS -->
+      </div>
+
+      <!-- Cart Form & Checkout -->
+      <div class="p-4 border-t border-slate-100 bg-slate-50 space-y-3">
+        <div class="space-y-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Pemesan</label>
+            <input type="text" id="cust-name" placeholder="Contoh: Ibu Rina" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-emerald-500 bg-white" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Alamat / Patokan Pengantaran</label>
+            <input type="text" id="cust-address" placeholder="Contoh: Blok B3 No. 4, RT 02" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 focus:outline-emerald-500 bg-white" />
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-between items-center text-sm font-bold text-slate-900 border-t border-slate-200">
+          <span>Total Belanja:</span>
+          <span id="cart-total-price" class="text-emerald-700 text-base">Rp 0</span>
+        </div>
+
+        <button onclick="sendOrderWhatsApp()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-200 transition">
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          Pesan via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING CART BUTTON FOR MOBILE QUICK ACCESS -->
+  <button onclick="toggleCartModal(true)" id="floating-cart" class="fixed bottom-6 right-6 z-40 bg-emerald-600 text-white p-4 rounded-full shadow-xl flex items-center gap-2 hover:bg-emerald-700 transition sm:hidden">
+    <i data-lucide="shopping-basket" class="w-6 h-6"></i>
+    <span id="floating-badge" class="font-bold text-sm bg-rose-500 px-2 py-0.5 rounded-full">0</span>
+  </button>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // 1. DATA PRODUK (Bisa diubah/ditambah dengan mudah)
+    const products = [
+      {
+        id: 1,
+        name: "Bayam Hijau Segar",
+        category: "sayur",
+        unit: "ikat",
+        price: 3000,
+        image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 2,
+        name: "Kangkung Petik",
+        category: "sayur",
+        unit: "ikat",
+        price: 3000,
+        image: "https://images.unsplash.com/photo-1622205313162-be1d5712a43f?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 3,
+        name: "Wortel Manis Brastagi",
+        category: "umbi",
+        unit: "500 gram",
+        price: 7000,
+        image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5c731?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 4,
+        name: "Tomat Buah Merah",
+        category: "umbi",
+        unit: "500 gram",
+        price: 8000,
+        image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 5,
+        name: "Cabai Rawit Merah",
+        category: "bumbu",
+        unit: "250 gram",
+        price: 12000,
+        image: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 6,
+        name: "Bawang Merah Brebes",
+        category: "bumbu",
+        unit: "250 gram",
+        price: 11000,
+        image: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 7,
+        name: "Bawang Putih Honan",
+        category: "bumbu",
+        unit: "250 gram",
+        price: 10000,
+        image: "https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 8,
+        name: "Kentang Dieng Super",
+        category: "umbi",
+        unit: "1 kg",
+        price: 18000,
+        image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&auto=format&fit=crop&q=60"
+      }
+    ];
+
+    // 2. STATE KERANJANG
+    let cart = [];
+
+    // GANTI DENGAN NOMOR WHATSAPP ANDA (Gunakan kode negara 62)
+    const WA_NUMBER = "6281234567890";
+
+    // Format Rupiah
+    function formatRupiah(amount) {
+      return "Rp " + amount.toLocaleString("id-ID");
+    }
+
+    // Render Produk ke Layar
+    function renderProducts(items) {
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = "";
+
+      items.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition duration-200";
+        card.innerHTML = `
+          <div class="relative h-36 sm:h-44 bg-slate-100 overflow-hidden">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
+            <span class="absolute top-2 left-2 bg-emerald-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-sm">
+              ${product.category}
+            </span>
+          </div>
+          <div class="p-3 sm:p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-slate-800 text-sm sm:text-base leading-snug line-clamp-2">${product.name}</h4>
+              <p class="text-xs text-slate-400 mt-1">Kemasan: /${product.unit}</p>
+            </div>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="font-extrabold text-emerald-700 text-sm sm:text-base">${formatRupiah(product.price)}</span>
+              <button onclick="addToCart(${product.id})" class="p-2 sm:px-3 sm:py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1 transition">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Tambah</span>
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // Filter Kategori
+    function filterProducts(cat) {
+      const buttons = document.querySelectorAll(".cat-btn");
+      buttons.forEach(btn => {
+        btn.classList.remove("bg-emerald-600", "text-white");
+        btn.classList.add("bg-white", "text-slate-600");
+      });
+      event.target.classList.remove("bg-white", "text-slate-600");
+      event.target.classList.add("bg-emerald-600", "text-white");
+
+      if (cat === "all") {
+        renderProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === cat);
+        renderProducts(filtered);
+      }
+    }
+
+    // Tambah Produk ke Keranjang
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existing = cart.find(item => item.id === productId);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+
+      updateCart();
+    }
+
+    // Ubah Jumlah di Keranjang (+/-)
+    function changeQty(productId, delta) {
+      const item = cart.find(i => i.id === productId);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.id !== productId);
+        }
+      }
+      updateCart();
+    }
+
+    // Perbarui UI Keranjang Belanja
+    function updateCart() {
+      const cartItemsContainer = document.getElementById("cart-items");
+      const cartBadge = document.getElementById("cart-badge");
+      const floatingBadge = document.getElementById("floating-badge");
+      const totalPriceEl = document.getElementById("cart-total-price");
+
+      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+      // Badge Count
+      cartBadge.innerText = totalQty;
+      floatingBadge.innerText = totalQty;
+
+      if (totalQty > 0) {
+        cartBadge.classList.remove("scale-0");
+        cartBadge.classList.add("scale-100");
+      } else {
+        cartBadge.classList.remove("scale-100");
+        cartBadge.classList.add("scale-0");
+      }
+
+      totalPriceEl.innerText = formatRupiah(totalPrice);
+
+      // Render Item List
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-48 text-slate-400">
+            <i data-lucide="shopping-basket" class="w-12 h-12 stroke-[1.5] mb-2"></i>
+            <p class="text-sm font-medium">Keranjang masih kosong</p>
+          </div>
+        `;
+      } else {
+        cartItemsContainer.innerHTML = cart.map(item => `
+          <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl">
+            <div class="flex-1 pr-2">
+              <h5 class="text-xs font-bold text-slate-800">${item.name}</h5>
+              <p class="text-[11px] text-slate-500">${formatRupiah(item.price)} / ${item.unit}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white border border-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs hover:bg-slate-100">-</button>
+              <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+              <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs hover:bg-emerald-700">+</button>
+            </div>
+          </div>
+        `).join("");
+      }
+      lucide.createIcons();
+    }
+
+    // Buka / Tutup Drawer Keranjang
+    function toggleCartModal(show) {
+      const modal = document.getElementById("cart-modal");
+      if (show) {
+        modal.classList.remove("hidden");
+      } else {
+        modal.classList.add("hidden");
+      }
+    }
+
+    // Kirim Pesanan via WhatsApp
+    function sendOrderWhatsApp() {
+      if (cart.length === 0) {
+        alert("Keranjang masih kosong! Silakan pilih sayuran terlebih dahulu.");
+        return;
+      }
+
+      const name = document.getElementById("cust-name").value.trim();
+      const address = document.getElementById("cust-address").value.trim();
+
+      if (!name || !address) {
+        alert("Harap lengkapi Nama dan Alamat pengantaran sebelum memesan.");
+        return;
+      }
+
+      let message = `Halo Warung SayurSegar, saya ingin pesan:\n\n`;
+      let grandTotal = 0;
+
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.qty;
+        grandTotal += subtotal;
+        message += `${index + 1}. ${item.name} (${item.qty} ${item.unit}) = ${formatRupiah(subtotal)}\n`;
+      });
+
+      message += `\n*Total Belanja:* ${formatRupiah(grandTotal)}\n\n`;
+      message += `*Nama:* ${name}\n`;
+      message += `*Alamat/Patokan:* ${address}\n\n`;
+      message += `Mohon konfirmasi ketersediaan barang dan total ongkirnya ya. Terima kasih!`;
+
+      // Buat URL WA
+      const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(waUrl, "_blank");
+    }
+
+    // Inisialisasi awal
+    window.addEventListener("DOMContentLoaded", () => {
+      renderProducts(products);
+      updateCart();
+    });
+  </script>
+</body>
+</html>
